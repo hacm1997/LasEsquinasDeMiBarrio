@@ -1,9 +1,13 @@
 package com.example.carlos.my_barrio;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -19,14 +23,18 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     Button btn;
     Button galery;
+    Button publi;
     ImageView img;
     EditText text1;
     EditText text2;
@@ -51,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     btn.setOnClickListener(this);
     galery = (Button)findViewById(R.id.galery);
     galery.setOnClickListener(this);
+    publi = (Button)findViewById(R.id.share);
+    publi.setOnClickListener(this);
+
     img = (ImageView)findViewById(R.id.imagen);
     text1 = (EditText)findViewById(R.id.text1);
     text2 = (EditText)findViewById(R.id.text2);
@@ -59,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
 
-       // getMenuInflater().inflate(R.menu.main, menu);
         menu.add("Guardar").setOnMenuItemClickListener(this.SaveImageClickListener).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return true;
     }
@@ -86,42 +96,74 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                /*abrirCam();*/
+
                 break;
             case R.id.galery:
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
                 startActivityForResult(intent.createChooser(intent, "Seleccionar imagen"), SELECT_PICTURE);
                 break;
+
+            case R.id.share:
+                Intent publica = new Intent(MainActivity.this, Main2Activity.class);
+                startActivity(publica);
+                break;
         }
     }
 
-    /*private void abrirCam(){
+    private String guardarImagen (Context context, Bitmap imagen) {
+        ContextWrapper cw = new ContextWrapper(context);
+        for (int h = 0; h < 100; h++) {
+            int numero = (int) (Math.random() * 100);
+            File flp = Environment.getExternalStorageDirectory();
+            File dir = new File(flp.getAbsolutePath() + "/imagenes");
+            File myPath = new File(dir, "imagen" + numero + ".jpg");
 
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(myPath);
+                imagen.compress(Bitmap.CompressFormat.JPEG, 10, fos);
+                fos.flush();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
 
+            return myPath.getAbsolutePath();
 
-    }*/
+        }
+        return null;
+    }
 
     MenuItem.OnMenuItemClickListener SaveImageClickListener = new MenuItem.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            Bitmap bmp;
+
+            Bitmap imagen = ((BitmapDrawable)img.getDrawable()).getBitmap();
+
+            String ruta = guardarImagen(getApplicationContext(), imagen);
+
+            Toast.makeText(getApplicationContext(), ruta, Toast.LENGTH_LONG).show();
+
+            Toast.makeText(MainActivity.this, "se guardó en la SD", Toast.LENGTH_SHORT).show();
+
+            /*Bitmap bmp;
             OutputStream otp;
             bmp = BitmapFactory.decodeResource(getResources(),R.id.imagen);
+            int numero = (int) (Math.random());
             File flp = Environment.getExternalStorageDirectory();
             File dir = new File(flp.getAbsolutePath() + "/imagenes");
             dir.mkdirs();
-            File fl = new File(dir, "prueba.jpg");
+            File fl = new File(dir, "img" + numero + ".jpg");
             try {
                 otp = new FileOutputStream(fl);
-                bmp.compress(Bitmap.CompressFormat.JPEG, 10 ,otp);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 10, otp);
                 otp.flush();
                 otp.close();
             }catch (Exception e){
                 e.printStackTrace();
-            }
-
-            Toast.makeText(MainActivity.this, "se guardó en la SD", Toast.LENGTH_SHORT).show();
+            }*/
 
             return false;
         }
@@ -147,8 +189,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     Uri path = data.getData();
                     img.setImageURI(path);
                 }break;
-            }
 
+            }
 
         //guardar imagen
        /* guardar savefile = new guardar();
