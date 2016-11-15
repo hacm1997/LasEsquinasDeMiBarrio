@@ -11,130 +11,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.carlos.my_barrio.Main2Activity">
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView6" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star"
-        android:layout_below="@+id/textView6"
-        android:layout_alignParentStart="true"
-        android:id="@+id/imageView6"
-        android:layout_alignParentEnd="true" />
-
-    <TextClock
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView6"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/textClock3" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView6"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView7" />
-
-    <LinearLayout
-        android:orientation="vertical"
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/reciclador"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/textClock3"></LinearLayout>
+        android:padding="3dp"
+        android:scrollbars="vertical" />
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView7"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="24dp"
-        android:id="@+id/textView15" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star"
-        android:layout_below="@+id/textView15"
-        android:layout_alignParentStart="true"
-        android:id="@+id/imageView8"
-        android:layout_alignParentEnd="true" />
-
-    <TextClock
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView8"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/textClock5" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textClock5"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView17" />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/textView15"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/textClock5"></LinearLayout>
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView17"
-        android:layout_alignEnd="@+id/textView17"
-        android:layout_marginTop="27dp"
-        android:id="@+id/textView18" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star"
-        android:layout_below="@+id/textView18"
-        android:layout_alignParentStart="true"
-        android:id="@+id/imageView9"
-        android:layout_alignParentEnd="true" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="31dp"
-        android:id="@+id/tomarft"
-        android:layout_alignStart="@+id/textClock7" />
-
-    <TextClock
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView9"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/textClock7" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView20" />
 
 </RelativeLayout>

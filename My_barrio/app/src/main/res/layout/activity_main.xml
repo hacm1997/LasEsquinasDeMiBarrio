@@ -11,46 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.carlos.my_barrio.MainActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/text2"
-        android:hint="Añada una breve Descripción"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_alignStart="@+id/text1" />
-
-    <TextView
-        android:text="ID:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_marginEnd="23dp"
-        android:layout_alignBaseline="@+id/text1"
-        android:layout_alignBottom="@+id/text1"
-        android:layout_alignEnd="@+id/textView2" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/text1"
-        android:hint="escriba su id"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/textView2" />
-
-    <TextView
-        android:text="Descripción:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="44dp"
-        android:layout_below="@+id/text1"
-        android:layout_alignParentStart="true" />
-
     <ImageView
         android:layout_width="300dp"
         app:srcCompat="@android:drawable/btn_star_big_off"
@@ -60,25 +20,82 @@
         android:layout_alignParentTop="true" />
 
     <Button
-        android:text="Galeria"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/galery"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
         android:text="Foto"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btcap"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_width="70dp"
+        android:fontFamily="sans-serif"
+        android:textColorLink="?attr/colorPrimaryDark" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imagen"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="32dp"
+        android:layout_above="@+id/galery"
+        android:id="@+id/datos">
+
+        <TextView
+            android:text="ID:"
+            android:layout_width="41dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/text1" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/text2"
+            android:hint="identi...."
+            android:enabled="false"
+            android:fontFamily="sans-serif"
+            android:shadowColor="@color/colorPrimaryDark" />
+
+        <TextView
+            android:text="Descrpición:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text3" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/text4"
+            android:hint="Añada una breve descripción"
+            android:fontFamily="sans-serif"
+            android:shadowColor="@color/colorPrimaryDark" />
+    </LinearLayout>
 
     <Button
         android:text="Publicar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/share"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_toEndOf="@+id/btcap"
+        android:layout_width="90dp"
+        android:fontFamily="sans-serif" />
+
+    <Button
+        android:text="Galeria"
+        android:layout_height="wrap_content"
+        android:id="@+id/galery"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/share"
+        android:layout_width="85dp"
+        android:fontFamily="sans-serif" />
+
+    <Button
+        android:text="Mostrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/datos"
+        android:layout_toEndOf="@+id/galery"
+        android:id="@+id/ver"
+        android:fontFamily="sans-serif" />
 </RelativeLayout>
