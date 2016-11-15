@@ -79,12 +79,13 @@ Declarar instancias globales
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+		/*Se llama al método login*/
         login();
         init();
     }
 
     public void init(   ){
-
+	/*llamada de los id de la activity*/
     btn = (Button)findViewById(R.id.btcap);
     btn.setOnClickListener(this);
     galery = (Button)findViewById(R.id.galery);
@@ -101,15 +102,18 @@ Declarar instancias globales
 
 
     }
-String uid;
+	String uid;
     String nombre;
     public void login(){
+		/*configuramos y asignamos los parametros para nuestra Id*/
          uid= Settings.Secure.getString(this.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
        String []parametros = {"tipo_query","2","id",uid};
         try{
+			/*hacemos Post indicando la url del servidor y agregamos los parametros*/
            String t = prmja_com.Post("http://comidasutb.gzpot.com/esquina/api/usuarios.php",parametros);
             Log.d("login",t);
           if(t.length()<2){
+			  /*iniciamos la clase login para agregar una Id*/
             Intent intent =new Intent(MainActivity.this,login.class);
               startActivity(intent);
           }
@@ -124,33 +128,39 @@ String uid;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-
+		/*Se añade un boton guardar en el menú*/
         menu.add("Guardar").setOnMenuItemClickListener(this.SaveImageClickListener).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return true;
     }
 
     @Override
     public void onClick(View view) {
+		/*Un id para implementar con un swith de 4 casos*/
     int id;
         id = view.getId();
         switch (id)
         {
+			/*el Primer caso para capturar una imagen*/
             case R.id.btcap:
                 Bitmap bmp;
                 OutputStream otp;
                 c = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(c, constante);
+				/*Con el intent (c), se inicia la actividad q es tomar la foto*/
                 File fl = new File(Environment.getExternalStorageDirectory(),MEDIA_DIRECTORY);
                 fl.mkdirs();
                 bmp = BitmapFactory.decodeResource(getResources(),R.id.imagen);
                 try {
+					/*Añadimos la img al directorio*/
                     otp = new FileOutputStream(fl);
                     bmp.compress(Bitmap.CompressFormat.JPEG, 100 ,otp);
+					/*Le damos un formato y tamaño a la img - luegos cerramos*/
                     otp.flush();
                     otp.close();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+				/*Le damos un sufijo a la img a traves de un numero random*/
                 for (int h = 0; h < 100; h++) {
                     int numero = (int) (Math.random() * 100);
                     iden.setText(String.valueOf(numero));
@@ -158,9 +168,12 @@ String uid;
                 }
 
                 break;
+				/*el segundo caso para seleccionar una img de nuestra galeria*/
             case R.id.galery:
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                /*un intent para abrir la galeria*/
+				Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
+				/*seleccionar la img*/
                 startActivityForResult(intent.createChooser(intent, "Seleccionar imagen"), SELECT_PICTURE);
                 for (int h = 0; h < 100; h++) {
                     int numero = (int) (Math.random() * 100);
@@ -170,18 +183,25 @@ String uid;
                 }
                 break;
 
+				/*tercer caso para subir la foto al servidor*/
             case R.id.share:
+				/*Un mensaje de progreso para informarnos si está hecho*/
                 final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
                 progressDialog.setMessage("Enviando...");
                 progressDialog.show();
                 progressDialog.dismiss();
+				/*cerramos el mensaje*/
+				/*llamamos al metodo share*/
                 share();
+				/*limpiamos todos los item para que no haya duplicados*/
                 img.clearAnimation();
                 iden.clearAnimation();
                 descrip.clearAnimation();
                 break;
 
+				/*el cuarto caso para ver las últimas fotos en el servidor*/
             case R.id.ver:
+				/*llamamos a la clase Main2Activity para iniciarla*/
                 Intent publica = new Intent(MainActivity.this, Main2Activity.class);
                 startActivity(publica);
 
@@ -189,15 +209,19 @@ String uid;
     }
 
     private String guardarImagen (Context context, Bitmap imagen) {
+		/*instanciamos un ContextWrapper*/
         ContextWrapper cw = new ContextWrapper(context);
         for (int h = 0; h < 100; h++) {
             int numero = (int) (Math.random() * 100);
+			/*leemos el directorio (SD), se crea una carpeta (imagenes) y la guardamos en el directorio (dir), 
+			con un nombre (imagen) y un numero creado al azar (random) y su respectivo formato jpg*/
             File flp = Environment.getExternalStorageDirectory();
             File dir = new File(flp.getAbsolutePath() + "/imagenes");
             File myPath = new File(dir, "imagen" + numero + ".jpg");
 
             FileOutputStream fos = null;
             try {
+				/*le damos formato a la img para guardad bien*/
                 fos = new FileOutputStream(myPath);
                 imagen.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                 fos.flush();
@@ -213,10 +237,11 @@ String uid;
         return null;
     }
 
+	/*accionamos el boton GUARDAR del menú*/
     MenuItem.OnMenuItemClickListener SaveImageClickListener = new MenuItem.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-
+			
             Bitmap imagen = ((BitmapDrawable)img.getDrawable()).getBitmap();
 
             String ruta = guardarImagen(getApplicationContext(), imagen);
@@ -225,11 +250,11 @@ String uid;
 
             Toast.makeText(MainActivity.this, "se guardó en la SD", Toast.LENGTH_SHORT).show();
 
-
+			
             return false;
         }
     };
-
+	/*método para comprimir nuestra imagen a base64 para poder enviarla al servidor*/
     public static String encodeToBase64(Bitmap imag, Bitmap.CompressFormat compressFormat, int quality){
         if (imag == null){
             return " ";
@@ -240,13 +265,18 @@ String uid;
         }
     }
     String result = "";
+	
+	/*Métodos para enviar al servidor*/
     public void share(){
         String uid= Settings.Secure.getString(this.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+		/*damos formato*/
         String img64 = encodeToBase64(bmp, Bitmap.CompressFormat.JPEG, 100);
         String des = descrip.getText().toString();
         String id = iden.getText().toString();
+		/*asignamos los parametros para poder enviar correctamente al servidor*/
         String []parametros = {"tipo_query","2","id_u",uid,"descri",des,"imagen",img64.toString()};
         try{
+			/*con la variable result hacemos Post indicando la url del servidor y añadimos los parametros*/
             result = prmja_com.Post("http://comidasutb.gzpot.com/esquina/api/fotos.php",parametros);
 
             Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
@@ -262,29 +292,7 @@ String uid;
 
     }
 
-   /* private boolean onInsert(){
-        HttpClient httpclient;
-        List<NameValuePair> nameValuePairs;
-        HttpPost httppost;
-        httpclient=new DefaultHttpClient();
-        httppost= new HttpPost("http://comidasutb.gzpot.com/esquina/api/fotos.php");
-        nameValuePairs = new ArrayList<NameValuePair>(1);
-        boolean imagen = nameValuePairs.add(new BasicNameValuePair("imagen", iden.getText().toString().trim() + ".jpg" + "Descripción" + descrip));
-
-        try {
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            httpclient.execute(httppost);
-            return true;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }*/
-
+	/*Método para resultados de las actividades realizadas*/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -292,13 +300,14 @@ String uid;
 
             switch (requestCode){
                 case constante:
+				/*si todo sale bien insertamos la foto tomada en nuestro ImageView*/
             if (resultCode == RESULT_OK)
             {
                 Bundle ext = data.  getExtras();
                 bmp = (Bitmap) ext.get("data");
                 img.setImageBitmap(bmp);
             }break;
-
+				/*si todo sale bien insertamos la foto seleccionada de la galeria en nuestro ImageView*/
                 case SELECT_PICTURE:
                 if (resultCode == RESULT_OK){
                     Uri path = data.getData();
@@ -312,10 +321,6 @@ String uid;
 
             }
 
-        //guardar imagen
-       /* guardar savefile = new guardar();
-
-        savefile.SaveImage(context, bmp);*/
     }
 
 }

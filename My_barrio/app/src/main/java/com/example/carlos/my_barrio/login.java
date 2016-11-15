@@ -27,9 +27,10 @@ public class login extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+				/*indicamos los parametros que se añadiran al servidor*/
                 String []parametro = {"tipo_query","2","nombre",editText.getText().toString(),"id",uid,"foto",""};
 
+				/*hacemos Post indicando la url del servidor y añadimos los parametros*/
                 try {
                     String t1 = prmja_com.Post("http://comidasutb.gzpot.com/esquina/api/usuarios.php",parametro);
                     Toast.makeText(login.this, t1, Toast.LENGTH_SHORT).show();

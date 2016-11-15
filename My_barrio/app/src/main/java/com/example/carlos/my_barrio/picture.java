@@ -3,8 +3,10 @@ package com.example.carlos.my_barrio;
 /**
  * Created by Carlos on 09/11/2016.
  */
-
+/*Clase que se utiliza para enviar al servidor*/
 public class picture {
+
+	/*Hacemos constructor para imagen-despcripcion-nombre*/
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
@@ -27,6 +29,8 @@ public class picture {
         this.nom = nom;
         this.desc = desc;
     }
+	
+	/*Retornamos a cada una*/
 
     public String getId() {
         return nom;

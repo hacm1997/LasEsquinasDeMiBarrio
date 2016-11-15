@@ -21,7 +21,7 @@ public class adapta extends RecyclerView.Adapter<adapta.AnimeViewHolder> {
     private List<picture> ima;
 
     public static class AnimeViewHolder extends RecyclerView.ViewHolder {
-        // Campos respectivos de un item
+        /*Campos respectivos de un item*/
         public ImageView imagen;
         public TextView nombre;
         public TextView visitas;
@@ -60,7 +60,8 @@ public class adapta extends RecyclerView.Adapter<adapta.AnimeViewHolder> {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
+        
+		/*guardamos las variables que nos devuelve el findview de nuestro layout*/
         viewHolder.nombre.setText(ima.get(i).getId());
         viewHolder.visitas.setText(ima.get(i).getDesc());
     }
