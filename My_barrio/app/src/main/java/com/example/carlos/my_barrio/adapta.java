@@ -67,3 +67,4 @@ public class adapta extends RecyclerView.Adapter<adapta.AnimeViewHolder> {
     }
 
 }
+}

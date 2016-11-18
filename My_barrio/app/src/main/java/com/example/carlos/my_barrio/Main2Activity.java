@@ -64,7 +64,7 @@ public class Main2Activity extends AppCompatActivity {
         String []parametros = {"tipo_query","1"};
         try{
 			/*hacemos Post indicando la url del servidor y añadimos los parametros*/
-           String result = prmja_com.Post("http://comidasutb.gzpot.com/esquina/api/fotos.php",parametros);
+           String result = prmja_com.Post("https://myservidor.000webhostapp.com/",parametros);
 
             if (result.length()>2){
                 Log.d("JOSN",result);
@@ -74,7 +74,7 @@ public class Main2Activity extends AppCompatActivity {
 				/*For para mostrar mas datos del servidor*/
                 for (int h=0; h<jsonArray.length(); h++){
 
-                    ima.add(new picture("http://comidasutb.gzpot.com/esquina/fotos_publicaciones/"+jsonArray.getJSONObject(h).getString("imagen"),jsonArray.getJSONObject(h).getString("nombre"),jsonArray.getJSONObject(h).getString("descripcion")));
+                    ima.add(new picture("https://myservidor.000webhostapp.com/"+jsonArray.getJSONObject(h).getString("imagen"),jsonArray.getJSONObject(h).getString("nombre"),jsonArray.getJSONObject(h).getString("descripcion")));
                 }
             }
 
