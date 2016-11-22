@@ -32,7 +32,7 @@ public class login extends AppCompatActivity {
 
 				/*hacemos Post indicando la url del servidor y añadimos los parametros*/
                 try {
-                    String t1 = prmja_com.Post("https://myservidor.000webhostapp.com/",parametro);
+                    String t1 = prmja_com.Post("https://myservidor.000webhostapp.com/api/usuarios.php",parametro);
                     Toast.makeText(login.this, t1, Toast.LENGTH_SHORT).show();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
