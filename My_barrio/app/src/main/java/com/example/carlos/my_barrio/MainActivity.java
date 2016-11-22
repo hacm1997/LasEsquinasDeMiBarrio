@@ -110,7 +110,7 @@ Declarar instancias globales
        String []parametros = {"tipo_query","2","id",uid};
         try{
 			/*hacemos Post indicando la url del servidor y agregamos los parametros*/
-           String t = prmja_com.Post("https://myservidor.000webhostapp.com/",parametros);
+           String t = prmja_com.Post("https://myservidor.000webhostapp.com//api/usuarios.php",parametros);
             Log.d("login",t);
           if(t.length()<2){
 			  /*iniciamos la clase login para agregar una Id*/
@@ -277,7 +277,7 @@ Declarar instancias globales
         String []parametros = {"tipo_query","2","id_u",uid,"descri",des,"imagen",img64.toString()};
         try{
 			/*con la variable result hacemos Post indicando la url del servidor y añadimos los parametros*/
-            result = prmja_com.Post("https://myservidor.000webhostapp.com/",parametros);
+            result = prmja_com.Post("https://myservidor.000webhostapp.com/esquina/api/fotos.php",parametros);
 
             Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
             iden.setText("");
