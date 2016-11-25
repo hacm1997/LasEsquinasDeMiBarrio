@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "693665706191",
+    "firebase_url": "https://database-mi-barrio.firebaseio.com",
+    "project_id": "database-mi-barrio",
+    "storage_bucket": "database-mi-barrio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693665706191:android:1598099dbdd60d87",
+        "android_client_info": {
+          "package_name": "com.example.carlos.my_barrio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693665706191-0k9b5gkb0e65s57qbffrqfnkv9svb76i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carlos.my_barrio",
+            "certificate_hash": "1AA17D87D139C863133E653B93CB32D38E25D69A"
+          }
+        },
+        {
+          "client_id": "693665706191-nra1f74gdebc0u0dr55u1qd7nkpsf6kn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carlos.my_barrio",
+            "certificate_hash": "FE6A5A00438E7DD1248DAF0506FD1BCD9FDE85AD"
+          }
+        },
+        {
+          "client_id": "693665706191-69ga4ndvfsvhknbpi3csf7e3aplufel4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCX4yLlh6fvyaokH8U8N0Echb6eWK_Bd90"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693665706191-69ga4ndvfsvhknbpi3csf7e3aplufel4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

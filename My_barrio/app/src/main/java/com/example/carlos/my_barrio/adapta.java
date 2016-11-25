@@ -1,6 +1,7 @@
 package com.example.carlos.my_barrio;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class adapta extends RecyclerView.Adapter<adapta.AnimeViewHolder> {
         }
     }
 
+    public adapta(){}
     public adapta(List<picture> items) {
         this.ima = items;
     }
@@ -53,18 +55,29 @@ public class adapta extends RecyclerView.Adapter<adapta.AnimeViewHolder> {
     @Override
     public void onBindViewHolder(AnimeViewHolder viewHolder, int i) {
         try {
+            Log.i("nombre",ima.get(i).getImagen());
             viewHolder.imagen.setImageBitmap(prmja_com.Download_Image(ima.get(i).getImagen()));
+            viewHolder.nombre.setText(ima.get(i).getNom());
+            viewHolder.visitas.setText(ima.get(i).getDesc());
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        
-		/*guardamos las variables que nos devuelve el findview de nuestro layout*/
-        viewHolder.nombre.setText(ima.get(i).getId());
-        viewHolder.visitas.setText(ima.get(i).getDesc());
+        /*guardamos las variables que nos devuelve el findview de nuestro layout*/
+
     }
 
 }
+    public void cargar(List<picture> list){
+        if(ima!=null){
+            ima.clear();
+            ima.addAll(list);
+
+        }else {
+            ima=list;
+        }
+        notifyDataSetChanged();
+    }
 }

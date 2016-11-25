@@ -18,6 +18,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.snowdream.android.widget.SmartImageView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.prmja.http.prmja_com;
@@ -61,20 +66,42 @@ public class Main2Activity extends AppCompatActivity {
 
 	/*Metodo para mostrar fotos desde el servidor*/
     public void muestra(){
-        String []parametros = {"tipo_query","1"};
+        // Write a message to the database
+        DatabaseReference ruta = FirebaseDatabase.getInstance().getReference().getRoot();
+
+        ruta.child("fotos").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ima.clear();
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    picture picture1=dataSnapshot1.getValue(picture.class);
+                    picture1.setImagen("https://myservidor.000webhostapp.com/fotos_publicaciones/"+picture1.getImagen());
+                    ima.add(picture1);
+                }
+                new adapta().cargar(ima);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /*String []parametros = {"tipo_query","1"};
         try{
-			/*hacemos Post indicando la url del servidor y añadimos los parametros*/
-           String result = prmja_com.Post("https://myservidor.000webhostapp.com/",parametros);
+			hacemos Post indicando la url del servidor y añadimos los parametros
+           String result = prmja_com.Post("https://myservidor.000webhostapp.com/api/fotos.php",parametros);
 
             if (result.length()>2){
                 Log.d("JOSN",result);
                 JSONObject jsonObject = new JSONObject(result);
 
                 JSONArray jsonArray = jsonObject.getJSONArray("fotos");
-				/*For para mostrar mas datos del servidor*/
+				/*For para mostrar mas datos del servidor
                 for (int h=0; h<jsonArray.length(); h++){
 
-                    ima.add(new picture("https://myservidor.000webhostapp.com/"+jsonArray.getJSONObject(h).getString("imagen"),jsonArray.getJSONObject(h).getString("nombre"),jsonArray.getJSONObject(h).getString("descripcion")));
+                    ima.add(new picture("https://myservidor.000webhostapp.com/fotos_publicaciones/"+jsonArray.getJSONObject(h).getString("imagen"),jsonArray.getJSONObject(h).getString("nombre"),jsonArray.getJSONObject(h).getString("descripcion")));
                 }
             }
 
@@ -84,7 +111,7 @@ public class Main2Activity extends AppCompatActivity {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 

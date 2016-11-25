@@ -6,10 +6,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -33,6 +35,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.prmja.http.*;
 
 
@@ -47,7 +52,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -60,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     Button publi;
     Button vi;
     ImageView img;
-    EditText iden;
     EditText descrip;
     Intent c;
     Bitmap bmp;
@@ -94,7 +100,6 @@ Declarar instancias globales
     publi.setOnClickListener(this);
     vi = (Button)findViewById(R.id.ver);
     vi.setOnClickListener(this);
-    iden = (EditText)findViewById(R.id.text2);
     descrip = (EditText)findViewById(R.id.text4);
     img = (ImageView)findViewById(R.id.imagen);
         // Obtener el Recycler
@@ -105,24 +110,18 @@ Declarar instancias globales
 	String uid;
     String nombre;
     public void login(){
-		/*configuramos y asignamos los parametros para nuestra Id*/
-         uid= Settings.Secure.getString(this.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-       String []parametros = {"tipo_query","2","id",uid};
-        try{
-			/*hacemos Post indicando la url del servidor y agregamos los parametros*/
-           String t = prmja_com.Post("https://myservidor.000webhostapp.com/",parametros);
-            Log.d("login",t);
-          if(t.length()<2){
-			  /*iniciamos la clase login para agregar una Id*/
-            Intent intent =new Intent(MainActivity.this,login.class);
-              startActivity(intent);
-          }
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+
+        SharedPreferences sharedPreferences=getSharedPreferences("datos",MODE_PRIVATE);
+        String nombr=sharedPreferences.getString("Nombre","Invitado");
+        if(nombr.equals("Invitado")){
+            Intent intent =new Intent(MainActivity.this,login.class);
+            startActivity(intent);
         }
+        else {}
+            /*iniciamos la clase login para agregar una Id*/
+
+
 
 
     }
@@ -161,11 +160,11 @@ Declarar instancias globales
                     e.printStackTrace();
                 }
 				/*Le damos un sufijo a la img a traves de un numero random*/
-                for (int h = 0; h < 100; h++) {
+          /*      for (int h = 0; h < 100; h++) {
                     int numero = (int) (Math.random() * 100);
                     iden.setText(String.valueOf(numero));
                     iden.setEnabled(false);
-                }
+                }*/
 
                 break;
 				/*el segundo caso para seleccionar una img de nuestra galeria*/
@@ -175,12 +174,12 @@ Declarar instancias globales
                 intent.setType("image/*");
 				/*seleccionar la img*/
                 startActivityForResult(intent.createChooser(intent, "Seleccionar imagen"), SELECT_PICTURE);
-                for (int h = 0; h < 100; h++) {
+              /*  for (int h = 0; h < 100; h++) {
                     int numero = (int) (Math.random() * 100);
                     iden.setText(String.valueOf(numero));
                     iden.setEnabled(false);
 
-                }
+                }*/
                 break;
 
 				/*tercer caso para subir la foto al servidor*/
@@ -195,7 +194,6 @@ Declarar instancias globales
                 share();
 				/*limpiamos todos los item para que no haya duplicados*/
                 img.clearAnimation();
-                iden.clearAnimation();
                 descrip.clearAnimation();
                 break;
 
@@ -211,7 +209,6 @@ Declarar instancias globales
     private String guardarImagen (Context context, Bitmap imagen) {
 		/*instanciamos un ContextWrapper*/
         ContextWrapper cw = new ContextWrapper(context);
-        for (int h = 0; h < 100; h++) {
             int numero = (int) (Math.random() * 100);
 			/*leemos el directorio (SD), se crea una carpeta (imagenes) y la guardamos en el directorio (dir), 
 			con un nombre (imagen) y un numero creado al azar (random) y su respectivo formato jpg*/
@@ -225,16 +222,14 @@ Declarar instancias globales
                 fos = new FileOutputStream(myPath);
                 imagen.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                 fos.flush();
+
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-
             return myPath.getAbsolutePath();
 
-        }
-        return null;
     }
 
 	/*accionamos el boton GUARDAR del menú*/
@@ -270,17 +265,27 @@ Declarar instancias globales
     public void share(){
         String uid= Settings.Secure.getString(this.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 		/*damos formato*/
+        SharedPreferences sharedPreferences=getSharedPreferences("datos",MODE_PRIVATE);
+        String nombr=sharedPreferences.getString("Nombre","Invitado");
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => " + c.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c.getTime());
+
         String img64 = encodeToBase64(bmp, Bitmap.CompressFormat.JPEG, 100);
         String des = descrip.getText().toString();
-        String id = iden.getText().toString();
+        int numero = (int) (Math.random() * 100);
 		/*asignamos los parametros para poder enviar correctamente al servidor*/
-        String []parametros = {"tipo_query","2","id_u",uid,"descri",des,"imagen",img64.toString()};
+        String []parametros = {"tipo","1","nombre_imagen",formattedDate+"","imagen",img64};
         try{
 			/*con la variable result hacemos Post indicando la url del servidor y añadimos los parametros*/
-            result = prmja_com.Post("https://myservidor.000webhostapp.com/",parametros);
+            result = prmja_com.Post("https://myservidor.000webhostapp.com/api/subir_fotos.php",parametros);
+            DatabaseReference ruta = FirebaseDatabase.getInstance().getReference().getRoot();
 
-            Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
-            iden.setText("");
+            picture picture1=new picture(formattedDate+".jpg",ruta.child("foto").push().getKey(),des,nombr);
+            ruta.child("fotos").child(ruta.child("foto").push().getKey()).setValue(picture1);
+            Toast.makeText(MainActivity.this, "Publicacion exitosa", Toast.LENGTH_SHORT).show();
             descrip.setText("");
             img.setImageBitmap(null);
 
@@ -303,7 +308,7 @@ Declarar instancias globales
 				/*si todo sale bien insertamos la foto tomada en nuestro ImageView*/
             if (resultCode == RESULT_OK)
             {
-                Bundle ext = data.  getExtras();
+                Bundle ext = data.getExtras();
                 bmp = (Bitmap) ext.get("data");
                 img.setImageBitmap(bmp);
             }break;

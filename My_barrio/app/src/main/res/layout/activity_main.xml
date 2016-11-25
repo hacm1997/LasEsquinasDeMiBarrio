@@ -12,7 +12,7 @@
     tools:context="com.example.carlos.my_barrio.MainActivity">
 
     <ImageView
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         app:srcCompat="@android:drawable/btn_star_big_off"
         android:id="@+id/imagen"
         android:layout_centerHorizontal="true"
@@ -38,22 +38,6 @@
         android:layout_above="@+id/galery"
         android:id="@+id/datos">
 
-        <TextView
-            android:text="ID:"
-            android:layout_width="41dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/text1" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/text2"
-            android:hint="identi...."
-            android:enabled="false"
-            android:fontFamily="sans-serif"
-            android:shadowColor="@color/colorPrimaryDark" />
 
         <TextView
             android:text="Descrpición:"
