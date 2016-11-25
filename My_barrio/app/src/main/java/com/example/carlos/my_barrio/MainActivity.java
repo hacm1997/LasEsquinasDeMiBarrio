@@ -110,6 +110,21 @@ Declarar instancias globales
 	String uid;
     String nombre;
     public void login(){
+<<<<<<< HEAD
+=======
+		/*configuramos y asignamos los parametros para nuestra Id*/
+         uid= Settings.Secure.getString(this.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+       String []parametros = {"tipo_query","2","id",uid};
+        try{
+			/*hacemos Post indicando la url del servidor y agregamos los parametros*/
+           String t = prmja_com.Post("https://myservidor.000webhostapp.com//api/usuarios.php",parametros);
+            Log.d("login",t);
+          if(t.length()<2){
+			  /*iniciamos la clase login para agregar una Id*/
+            Intent intent =new Intent(MainActivity.this,login.class);
+              startActivity(intent);
+          }
+>>>>>>> origin/master
 
 
         SharedPreferences sharedPreferences=getSharedPreferences("datos",MODE_PRIVATE);
@@ -280,8 +295,12 @@ Declarar instancias globales
         String []parametros = {"tipo","1","nombre_imagen",formattedDate+"","imagen",img64};
         try{
 			/*con la variable result hacemos Post indicando la url del servidor y añadimos los parametros*/
+<<<<<<< HEAD
             result = prmja_com.Post("https://myservidor.000webhostapp.com/api/subir_fotos.php",parametros);
             DatabaseReference ruta = FirebaseDatabase.getInstance().getReference().getRoot();
+=======
+            result = prmja_com.Post("https://myservidor.000webhostapp.com/esquina/api/fotos.php",parametros);
+>>>>>>> origin/master
 
             picture picture1=new picture(formattedDate+".jpg",ruta.child("foto").push().getKey(),des,nombr);
             ruta.child("fotos").child(ruta.child("foto").push().getKey()).setValue(picture1);
